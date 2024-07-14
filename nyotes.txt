@@ -1,0 +1,49 @@
+the sudoku files
+
+1. use tkinter to create a field you can enter a number into
+    just kidding this sucks dick use csv files
+2. write that number to a data class
+3. compare that number to other numbers
+
+1. start with just a 3x3 for in cell
+2. add rows and columns
+3. the CELLS should be unique, lists hold references to them
+4. makes checking a block or row or column easier
+
+nyotes
+7. prompt debug mode
+1. early error detection
+2. a cell is an int and 9 boolians
+3. if only one is true, it can only be that number so set it
+4. you like sudoku :3 start with an easy solver, then see if it works on harder ones and add the methods you need
+5. literally a check list of check if these cells are right or wrong
+6. or all cells are correct until they can't be. each time you put in a number, all the rows and columns are adjusted
+8. give each cell an id, then put the ids into different grids. make sure theyre references and not copies. 
+9. you can easily mess with i'd i think. if cell id 8 is added, the rest of the square should be updated. 
+10. it should be faster than me. take the same steps and remember the amount of looking i do. if 1 in row ect, is faster for a computer to do. don't aim for lightning. but hell yeah itll be fast.
+
+
+extra
+1. loading bar for number complete
+2. undo
+3. add small shadow numbers for nyotes
+4. the two for two. two cells that can only be two numbers, so the rest of the cells are free to check. THAT would be a lot of guesswork. return the inner grid of maybes, then comapare that to others. 
+5. a clear button. using the field stuff, you can reset using var.set("")
+
+rendering a single cell
+create a window
+pass it to a cell
+call the cell to render
+the cell calls the window to draw 4 lines
+the window draws 4 lines
+
+so you start with a cell
+it removes posibilities from each cell in a list
+if the number of posibilities for a cell is 1, 
+solve that cell, then call the recursion on that
+
+JK go basic
+find solved cell
+remove possibility from all unsolved cells via intrusive lists
+if any of those cells have 1 possibility left, solve them and move on
+if any of those cells have 0 left, and are unsolved, raise exception
