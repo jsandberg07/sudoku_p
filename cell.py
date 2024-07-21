@@ -34,7 +34,8 @@ class Cell:
     def check_for_solution(self):
         if self.possible[1:].count(True) == 1:
             self.num = self.possible.index(True)
-            self.possible[0] = True
+            self.possible = [True, False, False, False, False, False, False, False, False, False]
+            
 
     def remove_possibilities(self):
         self.remove_possibilities_h(self.row)

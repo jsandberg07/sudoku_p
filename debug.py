@@ -3,3 +3,4 @@ def print_related_cells(cell):
 
 def print_possibilities(cell):
     print(cell.possible)
+

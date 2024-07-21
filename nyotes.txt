@@ -47,3 +47,18 @@ find solved cell
 remove possibility from all unsolved cells via intrusive lists
 if any of those cells have 1 possibility left, solve them and move on
 if any of those cells have 0 left, and are unsolved, raise exception
+
+a. remnove the pyinstall bullshit
+1. put everything in a PuzzleState class
+2. need the sections or whatever i called them to be accessable
+3. solving the "only one cell in this section can be a certain number, so it is that number"
+
+1. for each cell in a section
+check if a number is already there, 
+if so then skip
+else
+have an array of numbers, 0-9 (literally dont use the first bool for anything)
+iterate through a sections cells
+going through their possibilities, adding a number to the array
+creates a sum of how many cells in the structure could be like 1, 2, 3 ect
+check that. if any number is 1, only 1 cell can be that number. find that cell, then solve it. then remove posibilities from stcutures of that cell and check again. or just keep going! enough loops solve everything
