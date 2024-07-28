@@ -24,6 +24,10 @@ class Cell:
         else:
             raise Exception("Invalid region passed to cell in add_list_to_cell")
         
+    def solve_cell(self, num):
+        self.num = num
+        self.possible = [True, False, False, False, False, False, False, False, False, False]
+        
     def is_solved(self):
         return self.possible[0]
     
@@ -46,7 +50,6 @@ class Cell:
         for cell in region:
             if not cell.is_solved():
                 cell.possible[self.num] = False
-                cell.check_for_solution()
     
     def __repr__(self):
         return f"{self.num}"

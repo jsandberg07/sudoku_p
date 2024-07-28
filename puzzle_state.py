@@ -1,6 +1,5 @@
 from intrusive_list import Intrusive_List
 
-
 class Puzzle_State:
     def __init__(self, cell_list):
         print("// creating puzzle state")
@@ -12,12 +11,6 @@ class Puzzle_State:
         self.print_cell_list()
         self.solve()
         self.print_cell_list()
-
-    # get cell list from main
-    # create lists
-    # assign cells to lists
-    # solve
-    # new method
 
     def check_if_solved(self):
         for i in range(0, 9):
@@ -34,51 +27,75 @@ class Puzzle_State:
                     if self.cell_list[i][j].is_solved():
                         self.cell_list[i][j].remove_possibilities()
 
+    def remove_possibilities(self):
+        for i in range(0, 9):
+                for j in range(0, 9):
+                    if self.cell_list[i][j].is_solved():
+                        self.cell_list[i][j].remove_possibilities()
+
+    def check_for_solutions(self):
+        for i in range(0, 9):
+                for j in range(0, 9):
+                    if self.cell_list[i][j].is_solved() == False:
+                        self.cell_list[i][j].check_for_solution()
+
     # checks all of a group to see if only 1 cell can have a certain number
     # then sets those cells
     def last_in_list_pass(self):
-        # rows
-        self.last_in_list_pass_h(self.rows)
-        # columns
-        self.last_in_list_pass_h(self.columns)
         # blocks
-        self.last_in_list_pass_h(self.blocks)
+        print("// blocks")
+        if self.last_in_list_pass_h(self.blocks) == True:
+            return
+        # rows
+        print("// rows")
+        if self.last_in_list_pass_h(self.rows) == True:
+            return
+        # columns
+        print("// columns")
+        if self.last_in_list_pass_h(self.columns) == True:
+            return
 
-    def last_in_list_pass_h(self, intrusive_list):
-        # the first index does nothing :^3 i just like cuter indexes
-        # it is also causing a lot of headaches kek
-        for sub_list in intrusive_list:
-            possibility_sum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            current_list = sub_list.intrusive_list
-            for cell in current_list:
-                for i in range(0, 10):
-                    if cell.possible[i] == True:
-                        possibility_sum[i] += 1
-            # if only 1 cell has the possibility to be a certain number
-            print(f"// possibility sum: {possibility_sum}")
-            if 1 in possibility_sum[1:9]:
-                # have to search the cells for whichever one has that particular possibility
-                # and set it to being solved
-                # then loop again
-                print(f"// a 1 was found in the PS")
-                solution = possibility_sum[1:9].index(1)
-                print(f"// setting a cell in the list to {solution}")
-                for cell in current_list:
-                    if cell.possible[solution] == True:
-                        print(f"// here's the possible list for the cell")
-                        print(f"// {cell.possible}")
-                        cell.num = solution
-                        cell.possible = [True, False, False, False, False, False, False, False, False, False]
-                        break
-            
+    def last_in_list_pass_h(self, list_of_intrusive_lists):
+        # for each number, count the number of cells that may have that result
+        change_made = False
+        for intrusive_list in list_of_intrusive_lists:
+            list_of_possibilites = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            for cell in intrusive_list.intrusive_list:
+                for possibility in range(1, 9):
+                    if cell.possible[possibility]:
+                        list_of_possibilites[possibility] += 1
+
+            # iterate through the list and for each 1, find the cell that has that same possibility and solve it
+            for possibility in range(1, 9):
+                if list_of_possibilites[possibility] == 1:
+                    change_made = True
+                    print("// last in list found!")
+                    print(f"// {list_of_possibilites}")
+                    for cell in intrusive_list.intrusive_list:
+                        if cell.possible[possibility] == True:
+                            print(f"// marking a cell as {possibility}")
+                            cell.num = possibility
+                            print(f"// here are the cells possibilities: ")
+                            print(f"// {cell.possible}")
+                            cell.possible = [True, False, False, False, False, False, False, False, False, False]
+                            cell.remove_possibilities()
+                            return change_made
+        return change_made
 
     def solve(self):
         passes = 0
-        max_passes = 20
+        max_passes = 100
         while passes < max_passes:
-            self.linear_pass()
-            # self.last_in_list_pass()
-            
+            self.remove_possibilities()
+            self.check_for_solutions()
+            self.print_cell_list()
+            print("/// linear pass complete")
+            self.remove_possibilities()
+            self.last_in_list_pass()
+            print("/// last in list pass complete")
+            self.print_cell_list()
+            print("// passes complete")
+            print("// ")
 
             passes += 1
             if self.check_if_solved():
@@ -99,6 +116,8 @@ class Puzzle_State:
             intrusive_list.add_cells_to_list(region, self.cell_list[n][0], self.cell_list[n][1], self.cell_list[n][2], 
                                             self.cell_list[n][3], self.cell_list[n][4], self.cell_list[n][5], 
                                             self.cell_list[n][6], self.cell_list[n][7], self.cell_list[n][8])
+
+
         # column
         region = 'column'
         for n in range(0, 9):
@@ -107,6 +126,7 @@ class Puzzle_State:
             intrusive_list.add_cells_to_list(region, self.cell_list[0][n], self.cell_list[1][n], self.cell_list[2][n], 
                                             self.cell_list[3][n], self.cell_list[4][n], self.cell_list[5][n], 
                                             self.cell_list[6][n], self.cell_list[7][n], self.cell_list[8][n])
+  
 
         # blocks
         region = 'block'
@@ -117,6 +137,7 @@ class Puzzle_State:
                 intrusive_list.add_cells_to_list(region, self.cell_list[i][j], self.cell_list[i][j+1], self.cell_list[i][j+2], 
                                                 self.cell_list[i+1][j], self.cell_list[i+1][j+1], self.cell_list[i+1][j+2], 
                                                 self.cell_list[i+2][j], self.cell_list[i+2][j+1], self.cell_list[i+2][j+2])
+
 
     def print_cell_list(self):
         for n in self.cell_list:

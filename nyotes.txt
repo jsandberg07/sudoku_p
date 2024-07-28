@@ -62,3 +62,25 @@ iterate through a sections cells
 going through their possibilities, adding a number to the array
 creates a sum of how many cells in the structure could be like 1, 2, 3 ect
 check that. if any number is 1, only 1 cell can be that number. find that cell, then solve it. then remove posibilities from stcutures of that cell and check again. or just keep going! enough loops solve everything
+
+so the guts are good but the logic is falling apart somewhere
+i need to make sure that all the cells are solved properly, some of them are not getting marked correctly
+
+need a function for cells to solve them, mark their posibilities all as false
+
+what does the solver actually do
+check a cell. see if it is solved. if yes, remove possibilities from all other cells
+then check those cells for solutions
+break it up more
+
+1. remove possibilities from all other cells
+2. check for any cells that can be solved
+3. if no changes are made, do last in list
+nah that's the same bro
+
+actually do that
+1. remove possibilites from all other cells
+2. check for any cells that can be solved
+3. remove possibilities from all other cells again
+4. last in list
+break it up just a little bit more

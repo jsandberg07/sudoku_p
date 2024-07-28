@@ -14,7 +14,7 @@ def create_template():
     file_path = 'sudoku.csv'
     with open(file_path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerows(blank_template)    
+        writer.writerows(blank_template)
 
 def read_input():
         try:
